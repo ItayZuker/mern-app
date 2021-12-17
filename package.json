@@ -1,0 +1,25 @@
+{
+  "name": "mern-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd client && npm install && cd ../server && npm install",
+    "start": "cd server && node index.js",
+    "dev": "concurrently \"cd server && nodemon index.js\" \"cd client && npm start\"",
+    "build": "cd client && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ItayZuker/mern-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ItayZuker/mern-app/issues"
+  },
+  "homepage": "https://github.com/ItayZuker/mern-app#readme",
+  "dependencies": {
+    "concurrently": "^6.5.0"
+  }
+}
