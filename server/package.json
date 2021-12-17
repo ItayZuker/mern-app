@@ -9,10 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "email-validator": "^2.0.4",
     "express": "^4.17.2",
+    "generate-password": "^1.7.0",
+    "install": "^0.13.0",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.2",
-    "nodemon": "^2.0.15"
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "npm": "^8.3.0"
   }
 }
