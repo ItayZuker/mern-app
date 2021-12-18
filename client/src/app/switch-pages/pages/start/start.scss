@@ -1,0 +1,56 @@
+@import "src/assets/styles/global";
+
+.start-app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .top-container {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+    .navigation-container {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        > a.link {
+            margin: 1rem 0;
+            height: 50px;
+            width: 200px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: $gray-color-03;
+            text-decoration: none;
+            color: $typography-color_06;
+            &:hover {
+                cursor: pointer;
+                background-color: $gray-color-02;
+
+            }
+            &:active {
+                background-color: $gray-color-01;
+                color: $typography-color_06;
+
+            }
+        }
+    }
+    .copyright-container {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+    }
+}

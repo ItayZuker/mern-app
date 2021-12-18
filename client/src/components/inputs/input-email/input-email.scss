@@ -1,0 +1,29 @@
+@import "src/assets/styles/global";
+
+label.input-label {
+    color: $typography-color_03;
+    &.email {
+        width: 300px;
+        .input-container {
+            margin: 0.2rem 0 0 0;
+            &:hover {
+                cursor: text;
+            }
+            > p {
+                border-radius: 3px;
+                height: 2.6rem;
+                display: flex;
+                align-items: center;
+                padding: 0.8rem;
+                background-color: $gray-color-05;
+                &:focus {
+                    outline: none;
+
+                }
+                &.placeholder {
+                    color: $typography-color_03;
+                }
+            }
+        }
+    }
+}

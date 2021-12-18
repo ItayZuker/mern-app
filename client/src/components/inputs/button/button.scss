@@ -1,0 +1,33 @@
+@import "src/assets/styles/global";
+
+.button {
+    height: 2.6rem;
+    margin: 1rem;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    background-color: $gray-color-05;
+    transition: all .1s ease-in-out;
+    > p {
+        color: $typography-color_04;
+
+    }
+    &.active {
+        background-color: $gray-color-02;
+        > p {
+            color: $typography-color_05;
+
+        }
+        &:hover {
+            cursor: pointer;
+
+        }
+        &:active {
+            background-color: $gray-color-01;
+            color: $typography-color_06;
+
+        }
+    }
+}

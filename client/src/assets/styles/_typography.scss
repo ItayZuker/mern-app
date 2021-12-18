@@ -1,0 +1,53 @@
+@import "./src/assets/styles/global.scss";
+
+// Typography Start
+
+html {
+    body {
+        font-size: 16px;
+        color: $typography-color-01;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+        h1 {
+            font-size: 2.5rem;
+            line-height: 3rem;
+            font-weight: 400;
+            color: $typography-color-02;
+
+        }
+        h2 {
+            font-size: 2rem;
+            line-height: 2.4rem;
+            font-weight: 400;
+            color: $typography-color-02;
+            margin: 2rem 0;
+
+        }
+        h3 {
+            font-size: 1.5rem;
+            line-height: 1.8rem;
+            font-weight: 400;
+            color: $typography-color-02;
+
+        }
+        h4 {
+            font-size: 1rem;
+            line-height: 1.3rem;
+            font-weight: 400;
+            color: $typography-color-02;
+
+        }
+        p {
+            font-size: 1rem;
+            line-height: 1.3rem;
+            font-weight: 400;
+            color: $typography-color-02;
+        }
+        a {
+            text-decoration: none;
+            color: $typography-color-01;
+            font-weight: 500;
+        }
+    }
+}
+
+// Typography End

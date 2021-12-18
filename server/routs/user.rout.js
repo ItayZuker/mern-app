@@ -98,6 +98,7 @@ router.post('/verify-email', async ( req, res ) => {
         /* Verify email */
         await validateEmail(req.body.email);
 
+        /* Define verification item lifetime in database */
         const second = 10000;
         const minute = second * 60;
         const lifeTime = minute * 5;
@@ -109,7 +110,7 @@ router.post('/verify-email', async ( req, res ) => {
             email: req.body.email,
             encryptedPassword: encryptedPassword,
             lifeTime: lifeTime,
-            date: new Date()
+            date: req.body.date
         };
 
         /* Find if the email is currently in use in temporary database verification collection, and delete if true */
