@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const validator = require('email-validator');
 const nodemailer = require('nodemailer');
 
-
 /* Router functions */
 const getTemporaryPassword = () => {
     return new Promise((resolve, reject) => {
@@ -47,18 +46,21 @@ const validateEmail = (emailString) => {
 };
 
 const setItemTermination = (verificationItem) => {
+    setTimeout(async () => {
         const id = verificationItem._id.toString();
-        setTimeout(async () => {
-            const deletedItem = await Email_Verification_Model
-                .findOneAndDelete({_id: id}).exec();
-            console.log('Lifetime expired for: '+ deletedItem.email);
-        }, verificationItem.lifeTime);
-
+        const deletedItem = await Email_Verification_Model
+            .findOneAndDelete({_id: id}).exec();
+        if (deletedItem) {
+            console.log('Lifetime expired for: ' + deletedItem.email);
+        } else {
+            console.log('Lifetime irrelevant for ID: ' + id + ' ---> Item was already deleted because of email duplication with: ' + verificationItem.email);
+        }
+    }, verificationItem.lifeTime);
 };
 
 const getMinutesLifetime = (seconds) => {
     return new Promise(resolve => {
-        const minutes = Math.floor(seconds / 600000)
+        const minutes = Math.floor(seconds / 60000);
         resolve(minutes);
     });
 };
@@ -90,7 +92,6 @@ const sendVerificationEmail = (verificationItem, temporaryPassword) => {
     });
 };
 
-
 /* Router routs */
 router.post('/verify-email', async ( req, res ) => {
     try {
@@ -99,9 +100,9 @@ router.post('/verify-email', async ( req, res ) => {
         await validateEmail(req.body.email);
 
         /* Define verification item lifetime in database */
-        const second = 10000;
+        const second = 1000;
         const minute = second * 60;
-        const lifeTime = minute * 5;
+        const lifeTime = minute * 2;
 
         /* Try to build a new email verification item */
         const temporaryPassword = await getTemporaryPassword();
