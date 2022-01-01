@@ -1,0 +1,21 @@
+@import "src/assets/styles/global";
+
+.register-stage-two-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > p {
+        color: $typography-color_04;
+        transition: all .1s ease-in-out;
+        &:hover {
+            cursor: pointer;
+            color: $typography-color_03;
+
+        }
+        &:active {
+            color: $typography-color_01;
+
+        }
+    }
+}

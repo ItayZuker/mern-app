@@ -4,19 +4,14 @@ import './button.scss';
 const Button = (props) => {
 
     // Locale Component State Variables
-    const [value] = useState(props.value || 'submit');
-
-    // All Component Functions
-    const capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
+    const [value] = useState(props.value || 'Submit');
 
     // JSX Output
     return (
         <div
             className={'button ' + (props.isActive ? 'active' : '')}
-            onClick={() => props.isActive ? props.callback() : null}>
-            <p>{capitalizeFirstLetter(value)}</p>
+            onClick={() => props.callback()}>
+            <p>{value}</p>
         </div>
     )
 }

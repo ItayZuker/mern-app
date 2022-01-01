@@ -1,6 +1,7 @@
 @import "src/assets/styles/global";
 
 .button {
+    pointer-events: none;
     height: 2.6rem;
     margin: 1rem;
     padding: 0.5rem 1.5rem;
@@ -9,12 +10,14 @@
     align-items: center;
     border-radius: 3px;
     background-color: $gray-color-05;
+    width: fit-content;
     transition: all .1s ease-in-out;
     > p {
         color: $typography-color_04;
 
     }
     &.active {
+        pointer-events: unset;
         background-color: $gray-color-02;
         > p {
             color: $typography-color_05;
@@ -22,10 +25,11 @@
         }
         &:hover {
             cursor: pointer;
+            background-color: $gray-color-01;
 
         }
         &:active {
-            background-color: $gray-color-01;
+            background-color: $gray-color-02;
             color: $typography-color_06;
 
         }

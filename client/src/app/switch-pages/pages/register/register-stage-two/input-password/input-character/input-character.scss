@@ -1,0 +1,26 @@
+@import "src/assets/styles/global";
+
+.input-character-container {
+    width: 100%;
+    height: 4rem;
+    background-color: $gray-color-02;
+    border-radius: 3px;
+    margin: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > p {
+        display: flex;
+        justify-content: center;
+        height: 2rem;
+        width: 50%;
+        font-size: 2rem;
+        font-weight: 600;
+        color: $typography-color_06;
+        border-bottom: 2px solid $gray-color-03;
+        &:focus {
+            outline: none;
+
+        }
+    }
+}

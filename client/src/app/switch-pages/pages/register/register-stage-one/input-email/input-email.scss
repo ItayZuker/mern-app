@@ -8,6 +8,7 @@ label.input-label {
             margin: 0.2rem 0 0 0;
             &:hover {
                 cursor: text;
+
             }
             > p {
                 border-radius: 3px;
@@ -16,12 +17,11 @@ label.input-label {
                 align-items: center;
                 padding: 0.8rem;
                 background-color: $gray-color-05;
+                color: $typography-color_03;
                 &:focus {
                     outline: none;
+                    color: $typography-color_02;
 
-                }
-                &.placeholder {
-                    color: $typography-color_03;
                 }
             }
         }

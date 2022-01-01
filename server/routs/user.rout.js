@@ -92,6 +92,19 @@ const sendVerificationEmail = (verificationItem, temporaryPassword) => {
     });
 };
 
+const checkPassword = (emailPassword, encryptedPassword) => {
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(emailPassword, encryptedPassword, (err, result) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+
 /* Router routs */
 router.post('/verify-email', async ( req, res ) => {
     try {
@@ -142,10 +155,13 @@ router.post('/verify-email', async ( req, res ) => {
                     setItemTermination(verificationItem);
                     const minutesLifetime = await getMinutesLifetime(emailVerificationItem.lifeTime);
                     await sendVerificationEmail(verificationItem, temporaryPassword);
+                    const passwordSize = temporaryPassword.length;
                     res.status(200).json({
                         message: 'Verification password was sent to your email',
-                        warning: 'Password will be deleted in: ' + minutesLifetime + ' minutes'
-                        });
+                        warning: 'Password will be deleted in: ' + minutesLifetime + ' minutes',
+                        passwordSize: passwordSize,
+                        stage: 'validate'
+                    });
                 }
             });
 
@@ -154,5 +170,42 @@ router.post('/verify-email', async ( req, res ) => {
     }
 });
 
+router.post('/verify-email-password', async ( req, res ) => {
+    try {
 
+        /* Verify email */
+        await validateEmail(req.body.email);
+
+        /* Try to build a new email verification item */
+        const emailVerificationItem = {
+            email: req.body.email,
+            password: req.body.password,
+            date: req.body.date
+        };
+
+        /* Find if the email is currently in use in temporary database verification collection, and delete if true */
+        const dbItem = await Email_Verification_Model
+            .find({email: emailVerificationItem.email}).exec();
+
+        if(!!dbItem) {
+            // try to decrypt password
+            const match = await checkPassword(emailVerificationItem.password, dbItem[0].encryptedPassword);
+            if(match) {
+                res.status(200).json({
+                    message: 'Match',
+                });
+            } else {
+                res.status(200).json({
+                    message: 'Wrong password',
+                });
+            }
+        } else {
+            res.status(200).json({
+                message: 'No email in temporary DB',
+            });
+        }
+    } catch ( err ) {
+        res.status( 500 ).send( err );
+    }
+});
 module.exports = router;
