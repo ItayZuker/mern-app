@@ -173,23 +173,20 @@ router.post('/verify-email', async ( req, res ) => {
 router.post('/verify-email-password', async ( req, res ) => {
     try {
 
-        /* Verify email */
-        await validateEmail(req.body.email);
-
-        /* Try to build a new email verification item */
         const emailVerificationItem = {
             email: req.body.email,
             password: req.body.password,
             date: req.body.date
         };
 
-        /* Find if the email is currently in use in temporary database verification collection, and delete if true */
+        /* Find item with matching email in (Temporary) database */
         const dbItem = await Email_Verification_Model
-            .find({email: emailVerificationItem.email}).exec();
+            .findOne({email: emailVerificationItem.email}).exec();
 
         if(!!dbItem) {
-            // try to decrypt password
-            const match = await checkPassword(emailVerificationItem.password, dbItem[0].encryptedPassword);
+
+            /* Decrypt password and compare */
+            const match = await checkPassword(emailVerificationItem.password, dbItem.encryptedPassword);
             if(match) {
                 res.status(200).json({
                     message: 'Match',
@@ -199,11 +196,13 @@ router.post('/verify-email-password', async ( req, res ) => {
                     message: 'Wrong password',
                 });
             }
+
         } else {
             res.status(200).json({
                 message: 'No email in temporary DB',
             });
         }
+
     } catch ( err ) {
         res.status( 500 ).send( err );
     }
