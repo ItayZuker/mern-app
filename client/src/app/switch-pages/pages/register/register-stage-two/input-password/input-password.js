@@ -1,25 +1,29 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import InputCharacter from './input-character/input-character';
 import {CreateUserContext} from "../../../../../../global-context/create-user-context";
 import './input-password.scss';
 
-const InputPassword = () => {
+const InputPassword = (props) => {
 
+    /* Import global state variables */
     const {
-        passwordSize,
-        passwordArray,
-        setPasswordArray
+        password,
+        setPassword
     } = useContext(CreateUserContext);
 
+    /* Variable triggers */
     useEffect(() => {
-        if(passwordSize > 0) {
-            buildPasswordInput(passwordSize);
+        if(password.size > 0) {
+            buildPasswordInput(password.size);
         }
-    }, [passwordSize]);
+    }, [password.size]);
 
+    /* Component functions */
     const buildPasswordInput = async (size) => {
         const newPasswordArray = await buildNewPasswordArray(size);
-        setPasswordArray(newPasswordArray)
+        setPassword(prevState => {
+            return {...prevState, array: newPasswordArray}
+        })
     };
 
     const buildNewPasswordArray = (size) => {
@@ -32,12 +36,14 @@ const InputPassword = () => {
         });
     };
 
+    /* JSX output */
     return (
-        <div className='input-password-container'>
-            {passwordArray.map((item, i) => {
+        <div className={'input-password-container ' + (props.isActive ? 'active ' : '') + (props.loading ? 'loading' : '')}>
+            {password.array.map((item, i) => {
                 return <InputCharacter
                 key={i}
                 index={i}
+                isActive={props.isActive}
                 />
             })}
         </div>

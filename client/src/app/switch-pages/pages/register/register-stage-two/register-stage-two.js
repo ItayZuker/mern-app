@@ -1,29 +1,37 @@
 import React, {useContext, useEffect, useState} from "react";
+import {CreateUserContext} from "../../../../../global-context/create-user-context";
 import InputPassword from './input-password/input-password';
 import Button from "../../../../../components/inputs/button/button";
-import {CreateUserContext} from "../../../../../global-context/create-user-context";
 import './register-stage-two.scss';
 
 const RegisterStageTwo = (props) => {
 
+    /* Import global state variables */
     const {
         setStage,
-        passwordArray,
-        setPasswordArray,
-        email
+        password,
+        setPassword,
+        email,
+        setEmail,
+        setMessage,
     } = useContext(CreateUserContext);
 
+    /* Locale state variables */
     const [verifyActive, setVerifyActive] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [passwordActive, setPasswordActive] = useState(true);
 
+    /* Variable triggers */
     useEffect(() => {
-        if(!!passwordArray) {
+        if(!!password.array) {
             checkForPasswordString();
         }
-    }, [passwordArray]);
+    }, [password.array]);
 
+    /* Component functions */
     const checkForPasswordString = async () => {
         const passwordString = await getPasswordString();
-        if(passwordString.length === passwordArray.length) {
+        if(passwordString.length === password.array.length) {
             setVerifyActive(true);
         } else {
             setVerifyActive(false);
@@ -32,7 +40,7 @@ const RegisterStageTwo = (props) => {
 
     const getCleanPasswordArray = () => {
         return new Promise(resolve => {
-            const cleanPasswordArray = passwordArray.map((item, i) => {
+            const cleanPasswordArray = password.array.map((item, i) => {
                 return {character: '', index: i};
             });
             resolve(cleanPasswordArray);
@@ -41,7 +49,9 @@ const RegisterStageTwo = (props) => {
 
     const clearPasswordArray = async () => {
         const cleanPasswordArray = await getCleanPasswordArray();
-        setPasswordArray(cleanPasswordArray);
+        setPassword(prevState => {
+            return {...prevState, array: cleanPasswordArray}
+        });
     };
 
     const backStageOne = () => {
@@ -51,7 +61,7 @@ const RegisterStageTwo = (props) => {
 
     const getPasswordString = () => {
         return new Promise(resolve => {
-            const passwordCharactersArray = passwordArray.map(item => {
+            const passwordCharactersArray = password.array.map(item => {
                 return item.character
             })
             const passwordString = passwordCharactersArray.join('');
@@ -59,10 +69,63 @@ const RegisterStageTwo = (props) => {
         });
     };
 
+    const handleData = (data) => {
+        clearPasswordArray();
+        setEmail({
+            string: data.email,
+            verified: data.match,
+        });
+        if(!data.email) {
+            setPasswordActive(false);
+            setMessage(prevState => {
+                return {...prevState,
+                    one: {
+                        string: 'Sorry, password expired',
+                        highlight: true,
+                    },
+                    two: {
+                        string: '',
+                        highlight: false,
+                    }}
+            });
+        } else if(!data.match) {
+            setMessage(prevState => {
+                return {...prevState,
+                    one: {
+                        string: 'Wrong Password, try again',
+                        highlight: true,
+                    }}
+            });
+            setTimeout(() => {
+                setMessage(prevState => {
+                    return {...prevState,
+                        one: {
+                            string: 'Wrong Password, try again',
+                            highlight: false,
+                        }}
+                });
+            }, 3000);
+        } else {
+            setMessage(prevState => {
+                return {...prevState,
+                    one: {
+                        string: 'Please read the following',
+                        highlight: false,
+                    },
+                    two: {
+                        string: '',
+                        highlight: false,
+                    }}
+            });
+            setStage(data.stage);
+        }
+    };
+
     const verifyCode = async () => {
+        setLoading(true);
         const passwordString = await getPasswordString();
         const item = {
-            email: email,
+            email: email.string,
             password: passwordString,
             data: new Date(),
         };
@@ -79,28 +142,32 @@ const RegisterStageTwo = (props) => {
                 }),
             });
             const data = await res.json();
-            console.log(data)
-            // setPasswordSize(data.passwordSize);
-        //     setStage(data.stage)
+            handleData(data);
         } catch ( err ) {
             console.log(err);
+            setLoading(false);
         }
-        //
-        // console.log(passwordArray)
-    }
+    };
 
+    /* JSX output */
     if (props.stage !== 'validate') {
         return <></>
     } else {
         return (
             <div className='register-stage-two-container'>
-                <h3>Enter Password:</h3>
-                <InputPassword />
-                <Button
-                    isActive={verifyActive}
-                    value='verify'
-                    callback={() => verifyCode()}/>
-                <p
+                {passwordActive ?
+                    <InputPassword
+                        isActive={passwordActive}
+                        loading={loading}/>
+                    : <></> }
+                {passwordActive ?
+                    <Button
+                        isActive={verifyActive}
+                        value='verify'
+                        callback={() => verifyCode()}
+                        loading={loading}/>
+                    : <></> }
+                <p className={passwordActive ? '' : 'password-expired'}
                     onClick={() => backStageOne()}>
                     Send another password</p>
             </div>

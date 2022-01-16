@@ -1,0 +1,59 @@
+@import "src/assets/styles/global";
+
+.register-stage-three-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 500px;
+    > .legal-container {
+        width: 100%;
+        max-height: 300px;
+        background-color: $gray-color-06;
+        padding: 1rem 2rem;
+        border-radius: 3px;
+        overflow-y: scroll;
+        &.loading {
+            pointer-events: none;
+            > p {
+                color: $typography-color_05;
+            }
+
+            /*  Scrollbar Start  */
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $gray-color-05;
+
+            }
+
+            /*  Scrollbar End  */
+
+        }
+        > p {
+            color: $typography-color_03;
+
+        }
+
+        /*  Scrollbar Start  */
+
+        &::-webkit-scrollbar {
+            width: 0.6em;
+            border-radius: 0 3px 3px 0;
+            background-color: $gray-color-06;
+
+        }
+        &::-webkit-scrollbar-track {
+            margin: 0.5em;
+
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: $gray-color-04;
+            border-radius: 0.2em;
+            border: 2px solid $gray-color-06;
+
+        }
+
+        /*  Scrollbar End  */
+
+    }
+}

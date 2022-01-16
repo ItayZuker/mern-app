@@ -5,6 +5,7 @@ import './switch-pages.scss';
 
 const SwitchPages = () => {
 
+    /* JSX output */
     return (
         <div className='switch-pages-container'>
             <Routes>

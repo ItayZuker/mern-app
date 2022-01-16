@@ -8,49 +8,39 @@
     align-items: center;
     .top-container {
         width: 100%;
-        height: 50px;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
 
     }
+    .message-container {
+        min-height: 3.6rem;
+        > p {
+            text-align: center;
+            font-weight: 500;
+            color: $typography-color_03;
+            transition: color .3s ease-in-out;
+            &:last-child {
+                margin-bottom: 1rem;
+
+            }
+            &.highlight {
+                color: $warning-color-01;
+
+            }
+        }
+    }
     .verification-container {
-        height: 600px;
+        height: fit-content;
         width: 100%;
         position: relative;
         display: flex;
         justify-content: center;
-        .loading-container {
+        .step-one-container,
+        .step-two-container,
+        .step-three-container {
             width: 100%;
-            height: 100%;
-            background-color: $gray-color-05;
-            position: absolute;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            > h2 {
-                color: $typography-color_06;
-
-            }
-            &.active {
-                display: flex;
-            }
-        }
-        .step-one-container {
-            width: 100%;
-            height: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            &.hide {
-                display: none;
-
-            }
-        }
-        .step-two-container {
-            width: 100%;
-            height: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;

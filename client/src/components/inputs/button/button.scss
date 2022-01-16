@@ -1,5 +1,14 @@
 @import "src/assets/styles/global";
 
+@keyframes loading {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
 .button {
     pointer-events: none;
     height: 2.6rem;
@@ -32,6 +41,9 @@
             background-color: $gray-color-02;
             color: $typography-color_06;
 
+        }
+        &.loading {
+            animation: loading 1s ease-in-out infinite;
         }
     }
 }

@@ -4,11 +4,13 @@ import {CreateUserContext} from "../../../../../../../global-context/create-user
 
 const InputCharacter = (props) => {
 
+    /* Import global state variables */
     const {
-        passwordArray,
-        setPasswordArray,
+        password,
+        setPassword,
     } = useContext(CreateUserContext);
 
+    /* Locale state variables */
     const [characters] = useState([
         {type: '0', charCode: 48},
         {type: '1', charCode: 49},
@@ -75,6 +77,7 @@ const InputCharacter = (props) => {
     ]);
     const characterRef = useRef();
 
+    /* Variable triggers */
     useEffect(() => {
         focusFirst();
     }, []);
@@ -82,8 +85,9 @@ const InputCharacter = (props) => {
     useEffect(() => {
         updateCharacter();
         focusNext();
-    }, [passwordArray]);
+    }, [password.array]);
 
+    /* Component functions */
     const focusFirst = () => {
         if (props.index === 0) {
             characterRef.current.focus();
@@ -91,7 +95,7 @@ const InputCharacter = (props) => {
     };
 
     const focusNext = async () => {
-        const nextCharacterItem = await passwordArray.find(item => !item.character);
+        const nextCharacterItem = await password.array.find(item => !item.character);
         if (!!nextCharacterItem) {
             if (nextCharacterItem.index === props.index) {
                 characterRef.current.focus();
@@ -101,13 +105,15 @@ const InputCharacter = (props) => {
 
     const focusPrevious = async () => {
         const newPasswordArray = await getDeletedPreviousArray();
-        setPasswordArray(newPasswordArray);
+        setPassword(prevState => {
+            return {...prevState, array: newPasswordArray}
+        });
     };
 
     const getDeletedPreviousArray = () => {console.log(123)
         return new Promise(resolve => {
             const previousIndex = props.index - 1;
-            const newArray = passwordArray.map((item, i) => {
+            const newArray = password.array.map((item, i) => {
                 if(i === previousIndex) {
                     return {character: '', index: i};
                 } else {
@@ -119,7 +125,7 @@ const InputCharacter = (props) => {
     };
 
     const updateCharacter = () => {
-        passwordArray.forEach((item, index) => {
+        password.array.forEach((item, index) => {
             if(index === props.index) {
                 characterRef.current.innerText = item.character;
             }
@@ -132,7 +138,7 @@ const InputCharacter = (props) => {
 
     const getNewArray = (character) => {
         return new Promise(resolve => {
-            const newArray = passwordArray.map((item, i) => {
+            const newArray = password.array.map((item, i) => {
                 if(i === props.index) {
                     return {character: character, index: i};
                 } else if(i > props.index) {
@@ -147,7 +153,9 @@ const InputCharacter = (props) => {
 
     const updatePasswordArray = async (character) => {
         const newArray = await getNewArray(character);
-        setPasswordArray(newArray);
+        setPassword(prevState => {
+            return {...prevState, array: newArray}
+        });
     };
 
     const handleInput = (e) => {
@@ -184,17 +192,58 @@ const InputCharacter = (props) => {
         }
     };
 
+    const validateCharacterType = (type) => {
+        return new Promise(resolve => {
+            const characterItem = characters.find(character => character.type === type);
+            if (!characterItem) {
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        });
+    };
+
+    const getPasswordArrayWithClipboard = (string) => {
+        return new Promise(resolve => {
+            let array = [];
+            for(let i = 0; i < string.length; i++) {
+                if(i === password.size) {
+                    break;
+                } else {
+                    const character = string[i];
+                    const validated = validateCharacterType(character);
+                    if(validated) {
+                        const item = {character: character, index: i}
+                        array.push(item);
+                    }
+                }
+            }
+            resolve(array);
+        });
+    };
+
+    const pastClipboard = async (string) => {
+        const newPasswordArray = await getPasswordArrayWithClipboard(string);
+        setPassword(prevState => {
+            return {...prevState, array: newPasswordArray}
+        });
+    };
+
     const handlePast = (e) => {
+        const clipboardData = e.clipboardData;
+        const clipboardString = clipboardData.getData('Text');
+        pastClipboard(clipboardString);
         e.preventDefault();
     };
 
+    /* JSX output */
     return (
         <div
-            className='input-character-container'
+            className={'input-character-container ' + (props.isActive ? 'active' : '')}
             onClick={() => characterRef.current.focus()}>
             <p
                 suppressContentEditableWarning={true}
-                contentEditable={'true'}
+                contentEditable={props.isActive}
                 ref={characterRef}
                 onFocus={(e) => handleFocus(e)}
                 onInput={(e) => handleInput(e)}

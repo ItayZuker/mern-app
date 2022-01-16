@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useContext} from "react";
+import React, {useState, useRef, useContext} from "react";
 import validator from 'email-validator';
 import {CreateUserContext} from "../../../../../../global-context/create-user-context";
 import './input-email.scss';
@@ -43,9 +43,13 @@ const InputEmail = (props) => {
         const string = e.target.innerText;
         const emailTrue = await validateEmail(string);
         if (emailTrue) {
-            setEmail(string);
+            setEmail(prevState => {
+                return {...prevState, string: string}
+            });
         } else {
-            setEmail('');
+            setEmail(prevState => {
+                return {...prevState, string: ''}
+            });
         }
     };
 
@@ -65,20 +69,17 @@ const InputEmail = (props) => {
 
     // JSX Output
     return (
-        <label className={'input-label email ' + (props.isActive ? 'active' : '')}>
-            <p>Enter email</p>
-            <div className='input-container'>
-                <p
-                    suppressContentEditableWarning={true}
-                    contentEditable={'true'}
-                    ref={inputValueRef}
-                    onFocus={(e) => handleFocus(e)}
-                    onBlur={(e) => handleBlur(e)}
-                    onInput={(e) => handleInput(e)}
-                    onKeyPress={(e) => handleKeyPress(e)}
-                    >{placeholder}</p>
-            </div>
-        </label>
+        <div className={'input-container email' + (props.isActive ? ' active' : '') + (props.loading ? 'loading' : '')}>
+            <p
+                suppressContentEditableWarning={true}
+                contentEditable={'true'}
+                ref={inputValueRef}
+                onFocus={(e) => handleFocus(e)}
+                onBlur={(e) => handleBlur(e)}
+                onInput={(e) => handleInput(e)}
+                onKeyPress={(e) => handleKeyPress(e)}
+                >{placeholder}</p>
+        </div>
     )
 }
 

@@ -4,6 +4,7 @@ import './start.scss';
 
 const Start = () => {
 
+    /* JSX output */
     return (
         <div className='start-app-container'>
             <div className='top-container'>

@@ -17,5 +17,19 @@
             color: $typography-color_01;
 
         }
+        &.password-expired {
+            border-radius: 3px;
+            background-color: $gray-color-02;
+            padding: 0.5rem 1rem;
+            &:hover {
+                background-color: $gray-color-01;
+                color: $typography-color_06;
+
+            }
+            &:active {
+                background-color: $gray-color-02;
+
+            }
+        }
     }
 }

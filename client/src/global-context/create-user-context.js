@@ -3,20 +3,42 @@ const CreateUserContext = React.createContext();
 
 const CreateUserContextComponent = (props) => {
 
-    const [email, setEmail] = useState('');
-    const [passwordSize, setPasswordSize] = useState(null);
     const [stage, setStage] = useState('email');
-    const [passwordArray, setPasswordArray] = useState([]);
+    const [password, setPassword] = useState({
+        array: [],
+        size: null,
+        lifetime: null,
+    });
+    const [email, setEmail] = useState({
+        string: '',
+        verified: false,
+    });
+    const [message, setMessage] = useState({
+        one: {
+            string: '',
+            highlight: false
+        },
+        two: {
+            string: '',
+            highlight: false
+        }
+    });
+    const [legal, setLegal] = useState({
+        content: 'sldkjf sldkfjs lffj sldfj llkj lskfj sldfj sldkfdsjf lkjfl skjflsdk flkdsjf ldskjf lsdkfj sldfj sldkfj sldfj llkj.',
+        agree: false,
+    })
 
     const contextValue = {
         email,
         setEmail,
-        passwordSize,
-        setPasswordSize,
         stage,
         setStage,
-        passwordArray,
-        setPasswordArray,
+        password,
+        setPassword,
+        message,
+        setMessage,
+        legal,
+        setLegal
     };
 
     return (

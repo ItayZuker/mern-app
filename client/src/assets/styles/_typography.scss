@@ -12,6 +12,7 @@ html {
             line-height: 3rem;
             font-weight: 400;
             color: $typography-color-02;
+            margin-top: 0;
 
         }
         h2 {
@@ -19,7 +20,7 @@ html {
             line-height: 2.4rem;
             font-weight: 400;
             color: $typography-color-02;
-            margin: 2rem 0;
+            margin: 0 0 1rem 0;
 
         }
         h3 {
@@ -27,6 +28,7 @@ html {
             line-height: 1.8rem;
             font-weight: 400;
             color: $typography-color-02;
+            margin: 0 0 0.5rem 0;
 
         }
         h4 {
@@ -34,6 +36,7 @@ html {
             line-height: 1.3rem;
             font-weight: 400;
             color: $typography-color-02;
+            margin-top: 0;
 
         }
         p {
@@ -41,6 +44,7 @@ html {
             line-height: 1.3rem;
             font-weight: 400;
             color: $typography-color-02;
+
         }
         a {
             text-decoration: none;

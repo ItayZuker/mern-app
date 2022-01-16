@@ -8,9 +8,20 @@ const GlobalContextComponent = (props) => {
     const [date, setDate] = useState(new Date());
 
     const getGeoData = async () => {
-        const data = await fetch(`https://geolocation-db.com/json/`);
-        const geoData = await data.json();
-        setGeoData(geoData);
+        try {
+            const data = await fetch(`https://geolocation-db.com/json/`);
+            const geoData = await data.json();
+            setGeoData({
+                countryCode: geoData.country_code,
+                countryName: geoData.country_name
+            });
+        } catch (err) {
+            console.log(err);
+            setGeoData({
+                countryCode: '',
+                countryName: ''
+            });
+        }
     };
 
     const contextValue = {

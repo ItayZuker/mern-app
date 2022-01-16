@@ -1,0 +1,80 @@
+@import "src/assets/styles/global";
+
+.check-box-container {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin: 1rem 0;
+    > .check-box {
+        width: 1.2rem;
+        height: 1.2rem;
+        border: 2px solid $gray-color-02;
+        border-radius: 2px;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: .2s ease-in-out;
+        &:after {
+            content: '';
+            position: absolute;
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 50%;
+            background-color: transparent;
+            transition: .2s ease-in-out;
+
+        }
+    }
+    > p {
+        color: $gray-color-02;
+        font-weight: 500;
+        transition: .2s ease-in-out;
+    }
+    &.check {
+        > p {
+            color: $typography-color_03;
+        }
+        > .check-box {
+            border-color: $gray-color-03;
+            &:after {
+                background-color: $gray-color-03;
+
+            }
+        }
+    }
+    &:hover {
+        cursor: pointer;
+        > p {
+            color: $typography-color_02;
+        }
+        > .check-box {
+            border-color: $gray-color-02;
+            &:after {
+                background-color: transparent;
+
+            }
+        }
+        &.check {
+            > .check-box {
+                &:after {
+                    background-color: $gray-color-02;
+
+                }
+            }
+        }
+    }
+    &:active {
+        > p {
+            color: $typography-color_01;
+        }
+        > .check-box {
+            border-color: $gray-color-01;
+            &:after {
+                background-color: $gray-color-01;
+
+            }
+        }
+    }
+}

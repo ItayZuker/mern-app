@@ -7,8 +7,10 @@ import './pages.scss';
 
 const Pages = () => {
 
+    /* Import global state variables */
     const { page } = useParams();
 
+    /* JSX output */
     return (
         <div className='pages-container'>
                 { page === undefined ? <Start /> : null }
